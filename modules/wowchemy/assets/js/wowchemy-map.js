@@ -9,11 +9,16 @@
 function initMap() {
   if ($('#map').length) {
     let map_provider = $('#map-provider').val();
-    let lat = $('#map-lat').val();
-    let lng = $('#map-lng').val();
+    let init_lat = $('#map-init-lat').val();
+    let init_lng = $('#map-init-lng').val();
     let zoom = parseInt($('#map-zoom').val());
     let address = $('#map-dir').val();
     let api_key = $('#map-api-key').val();
+    let num_markers = parseInt($('#map-num-markers').val());
+    let popup_options = {
+      'className': 'custom-map'
+    };
+    let popup_template = "<img class = 'bg' src='{IMG}' alt='Featured Photo' /><h5 class='title'>{TITLE}</h5>  <p >{DESC}</p> <span class='fas fa-calendar-alt date'> {DATE}</span>";
 
     if (map_provider === 'google') {
       let map = new GMaps({
@@ -41,7 +46,7 @@ function initMap() {
         title: address,
       });
     } else {
-      let map = new L.map('map').setView([lat, lng], zoom);
+      let map = new L.map('map', { "tap": false }).setView([init_lat, init_lng], zoom);
       if (map_provider === 'mapbox' && api_key.length) {
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
           attribution:
@@ -58,6 +63,19 @@ function initMap() {
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         }).addTo(map);
       }
+      let markers = L.markerClusterGroup();
+      for (let idx = 0; idx < num_markers; idx++) {
+        let lat = $('#marker' + idx + '-lat').val();
+        let lng = $('#marker' + idx + '-lng').val();
+        let title = $('#marker' + idx + '-title').val();
+        let img = $('#marker' + idx + '-img').val();
+        let date = $('#marker' + idx + '-date').val();
+        let desc = $('#marker' + idx + '-desc').val() || "";
+        let content = popup_template.replace("{TITLE}", title).replace("{IMG}", img).replace("{DESC}", desc).replace("{DATE}", date);
+        markers.addLayer(L.marker([lat, lng]).bindPopup(content, popup_options));
+      }
+      map.addLayer(markers);
+      /*
       let marker = L.marker([lat, lng]).addTo(map);
       let url = lat + ',' + lng + '#map=' + zoom + '/' + lat + '/' + lng + '&layers=N';
       marker.bindPopup(
@@ -66,6 +84,7 @@ function initMap() {
           url +
           '">Routing via OpenStreetMap</a></p>',
       );
+      */
     }
   }
 }
