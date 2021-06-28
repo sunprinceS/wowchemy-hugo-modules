@@ -1,1 +1,62 @@
-// Override this file to add your own SCSS styling.
+// Larger gallery height
+.gallery {
+  margin: 0.5em -4px 1.5em -4px;
+  font-size: 0;
+}
+
+.gallery a[data-fancybox] img {
+  height: 140px;
+  width: auto;
+  max-width: inherit;
+  display: inherit;
+  margin: 0;
+  padding: 4px;
+  box-shadow: none;
+  vertical-align: inherit;
+}
+
+// Progress bar for 100peak
+.progress {
+    display: flex;
+    height: 3rem;
+    overflow: hidden;
+    line-height: 0;
+    font-size: 1.75rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+
+// Customized leaflet popup for world journey
+.custom-map .leaflet-popup-tip,
+.custom-map .leaflet-popup-content-wrapper {
+    background: #F0FFF0;
+    color: #343a40;
+    font-size: 14px;
+    width: 300px;
+}
+.custom-map .bg{
+  margin-top: 1.0rem;
+  margin-bottom: 1.5rem;
+}
+
+.custom-map .title{
+  color: #343a40;
+  text-align: center;
+}
+
+.custom-map .date{
+  font-size: 7pt;
+  color: #808080;
+}
+
+
+
+#num_markers{
+  font-size: 14px;
+  text-align: right;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    width: 1rem;
+    height: 1rem;
+}

@@ -6,8 +6,8 @@
  **************************************************/
 
 import mediumZoom from './_vendor/medium-zoom.esm';
-import {hugoEnvironment, codeHighlighting, searchEnabled} from '@params';
-import {scrollParentToChild} from './wowchemy-utils';
+import { hugoEnvironment, codeHighlighting, searchEnabled } from '@params';
+import { scrollParentToChild } from './wowchemy-utils';
 import {
   changeThemeModeClick,
   initThemeVariation,
@@ -78,7 +78,7 @@ function removeQueryParamsFromUrl() {
   if (window.history.replaceState) {
     let urlWithoutSearchParams =
       window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
-    window.history.replaceState({path: urlWithoutSearchParams}, '', urlWithoutSearchParams);
+    window.history.replaceState({ path: urlWithoutSearchParams }, '', urlWithoutSearchParams);
   }
 }
 
@@ -167,15 +167,15 @@ function toggleSearchDialog() {
     if (!$('#fancybox-style-noscroll').length && document.body.scrollHeight > window.innerHeight) {
       $('head').append(
         '<style id="fancybox-style-noscroll">.compensate-for-scrollbar{margin-right:' +
-          (window.innerWidth - document.documentElement.clientWidth) +
-          'px;}</style>',
+        (window.innerWidth - document.documentElement.clientWidth) +
+        'px;}</style>',
       );
       $('body').addClass('compensate-for-scrollbar');
     }
 
     // Show search modal.
     $('body').addClass('searching');
-    $('.search-results').css({opacity: 0, visibility: 'visible'}).animate({opacity: 1}, 200);
+    $('.search-results').css({ opacity: 0, visibility: 'visible' }).animate({ opacity: 1 }, 200);
     let algoliaSearchBox = document.querySelector('.ais-SearchBox-input');
     if (algoliaSearchBox) {
       algoliaSearchBox.focus();
@@ -222,7 +222,7 @@ $(document).ready(function () {
   fixHugoOutput();
 
   // Render theme variation, including any HLJS and Mermaid themes.
-  let {isDarkTheme, themeMode} = initThemeVariation();
+  let { isDarkTheme, themeMode } = initThemeVariation();
   renderThemeVariation(isDarkTheme, themeMode, true);
 
   // Initialise code highlighting if enabled for this page.
@@ -319,7 +319,7 @@ $(window).on('load', function () {
 
           // Apply filter
           console.debug(`Updating Isotope filter to ${selector}`);
-          iso.arrange({filter: selector});
+          iso.arrange({ filter: selector });
 
           // Update active toolbar filter button
           button.classList.remove('active');

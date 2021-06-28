@@ -1,4 +1,6 @@
-{{/* Do not directly modify this file! */}}
-{{/* Instead, create a `layouts/partials/custom_head.html` file in your site and add your code to it. */}}
+{{ $css := site.Data.custom.assets.css}}
 
-{{/* This partial is included in `themes/academic/layouts/partials/site_head.html`. */}}
+{{ $map_provider := lower site.Params.features.map.provider }}
+{{ if in (slice "mapnik" "mapbox") $map_provider }}
+{{ printf " <link rel=\"stylesheet\" href=\"%s\" integrity=\"%s\" crossorigin=\"anonymous\" media=\"print\" onload=\"this.media='all' \">" (printf $css.leaflet.markercluster.url $css.leaflet.markercluster.version) $css.leaflet.markercluster.sri | safeHTML }}
+{{ end }}

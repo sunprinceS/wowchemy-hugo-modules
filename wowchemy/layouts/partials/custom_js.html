@@ -1,4 +1,6 @@
-{{/* Do not directly modify this file! */}}
-{{/* Instead, create a `layouts/partials/custom_js.html` file in your site and add your code to it. */}}
+{{ $js := site.Data.custom.assets.js }}
 
-{{/* This partial is included in `themes/academic/layouts/partials/site_js.html`. */}}
+{{ $map_provider := lower site.Params.features.map.provider }}
+{{ if in (slice "mapnik" "mapbox") $map_provider }}
+{{ printf " <script src=\"%s\" integrity=\"%s\" crossorigin=\"anonymous\"></script>" (printf $js.leaflet.markercluster.url $js.leaflet.markercluster.version) $js.leaflet.markercluster.sri | safeHTML }}
+{{ end }}

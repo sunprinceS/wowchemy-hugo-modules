@@ -1,0 +1,54 @@
+{{ $resize_options := .Get "resize_options" | default "x450" }}
+{{ $album := .Get "album" }}
+{{ $album_path := path.Join "media" "albums" $album "*"}}
+{{ $slides := resources.Match $album_path }}
+
+<div class="section" id="carousel-{{ $album }}">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <div id="carouselIndicators-{{ $album }}" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            {{ range $key, $value := $slides }}
+              {{ $active := "" }}
+              {{ if eq $key 0 }}
+                {{ $active = "active" }}
+              {{ end }}
+              <li data-target="#carouselIndicators-{{ $album }}" data-slide-to="{{ $key }}" class="{{ $active }}"></li>
+            {{ end }}
+          </ol>
+          <div class="carousel-inner" role="listbox">
+          {{ range $key, $value := $slides }}
+            {{ $active := "" }}
+            {{ if eq $key 0 }}
+              {{ $active = "active" }}
+            {{ end }}
+            {{ $image := .Resize $resize_options}}
+            {{ $caption := "" }}
+            {{ $filename := path.Base .Name }}
+
+            {{ range (where (where $.Page.Params.carousel_item "album" $album) "image" $filename) }}
+              {{ $caption = .caption }}
+            {{ end }}
+
+              <div class="carousel-item {{ $active }} ">
+                  <img class="d-block" src="{{ $image.RelPermalink }}" alt="{{ .Name }}">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5 style="color: white">{{ with $caption }}{{ . | markdownify | emojify }}{{ end }}</h5>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+          <a class="carousel-control-prev" href="#carouselIndicators-{{ $album }}" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <i class="now-ui-icons arrows-1_minimal-left"></i>
+          </a>
+          <a class="carousel-control-next" href="#carouselIndicators-{{ $album }}" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <i class="now-ui-icons arrows-1_minimal-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{{ $data := $.Page.Params.map }}
+{{ $zoom_ratio := .Get "map_zoom" | default "5" }}
+{{ $markers := $data.marker_items }}
+{{ $num_markers := len $markers }}
+{{ $resize_options := .Get "resize_options" | default "x400" }}
+<div class="d-none">
+  <input id="map-provider" value="{{ lower site.Params.features.map.provider }}">
+  <input id="map-zoom" value="{{ $zoom_ratio }}">
+  <input id="map-init-lat" value="{{ $data.init_lat }}">
+  <input id="map-init-lng" value="{{ $data.init_lng }}">
+  <input id="map-num-markers" value="{{ $num_markers }}">
+
+  {{ range $idx, $marker := $markers}}
+  <input id="marker{{ $idx }}-lat" value="{{ $marker.lat }}">
+  <input id="marker{{ $idx }}-lng" value="{{ $marker.lng }}">
+  <input id="marker{{ $idx }}-title" value="{{ $marker.title }}">
+  <input id="marker{{ $idx }}-desc" value="{{ $marker.desc }}">
+  <input id="marker{{ $idx }}-date" value="{{ $marker.date }}">
+  {{ $img_path := path.Join "media" "thumbnail" "world" $marker.img }}
+  {{ $ori_image := resources.Get $img_path }}
+  {{ $image := $ori_image.Resize $resize_options}}
+  <input id="marker{{ $idx }}-img" value="{{ $image.RelPermalink }}">
+  {{ end }}
+</div>
+<div id="map" style="height: 600px;"></div>
+<div id="num_markers">目前有 {{ $num_markers }} 則故事，未完待續 </div>
